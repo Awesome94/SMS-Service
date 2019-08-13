@@ -1,6 +1,7 @@
 from flask import Flask
 from os import environ
 from dotenv import load_dotenv, find_dotenv
+from helpers import SMS
 from .util import env_var
 import nexmo
 
@@ -11,6 +12,7 @@ nexmo_client = nexmo.Client(
 )
 
 # creating africa's talking client object
+africas_talking_client = SMS()
 
 # create APP
 app = Flask(__name__)
