@@ -1,16 +1,10 @@
 from flask import Flask
 from os import environ
 from dotenv import load_dotenv, find_dotenv
-from app.helpers import SMS, NexmoSMS
+# from helpers import SMS, NexmoSMS
 
 
 load_dotenv(find_dotenv())
-
-# Creating a nexmo client object
-nexmo_client = NexmoSMS()
-
-# creating africa's talking client object
-africas_talking_client = SMS()
 
 # create APP
 app = Flask(__name__)
