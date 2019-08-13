@@ -1,6 +1,6 @@
 ## SMS-Service
 A service that sends SMS to different service providers.
-
+- Trello Board => <https://trello.com/b/4JSVnajx/sms-service>
 ## Overview
 This is a simple SMS service (RestApi) for sending sms' with the following options:
 
@@ -10,7 +10,10 @@ This is a simple SMS service (RestApi) for sending sms' with the following optio
 HTTP |End Point  | Result
 --- | --- | ----------
 `GET` | `/` | `Home/Initial route`.
-`POST` | `/v1/sendsms` | `Registers a new user and assigns them an account.`
+`POST` | `/register` | `Registers a new user`.
+`POSt` | `/login` | `logs in and assigns user a token to access the different endpoints`.
+`POST` | `/v1/sendsms` | `Send an sms using a provider of your choice.`
+`POST` | `/logout` | `Ends current user session`.
 
 ## Installation
 
@@ -32,11 +35,13 @@ HTTP |End Point  | Result
 
     - `$ pip install -r requirements.txt.`
 
-    NB: Make sure you have FLASK_APP set as `app/__init__.py`.
+3.  create a local database initiate, run migrations and upgrade db:
+    - $ export FLASK_APP=app/__init__.py
+    - `$ createdb smsservice
+    - `$ flask db init
+    - `$ flask db upgrade
 
-
-3. Start your application
-
+4. Start your application
 
     `$ python run run.py`
 ```
@@ -48,6 +53,9 @@ or Postman.(The choice is yours)
 
 
 You can also access the landing endpont directly in your browser, by opening <http://127.0.0.1:5000/>
+
+## Running tests.
+    >   $ pytest
 
 ## Nexmo provider(Request).
 
