@@ -1,8 +1,6 @@
-import unittest
 import json
-import os
 from flask_testing import TestCase
-from app.routes import nexmo_client, africas_talking_client, send_sms
+from app.routes import nexmo_client
 from tests import BaseTestMixin
 
 q_object = {

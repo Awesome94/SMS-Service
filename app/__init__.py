@@ -1,7 +1,9 @@
 from flask import Flask
 from os import environ
 from dotenv import load_dotenv, find_dotenv
-# from helpers import SMS, NexmoSMS
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_marshmallow import Marshmallow
 
 
 load_dotenv(find_dotenv())
@@ -21,5 +23,9 @@ elif environ.get('ENV') == 'TESTING':
 else:
     app.config.from_object('config.StagingConfig')
 
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
+migrate = Migrate(app, db)
 
 from app import routes
