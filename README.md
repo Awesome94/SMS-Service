@@ -21,9 +21,10 @@ HTTP |End Point  | Result
 * virtualenv
 
 ## Run application on Local
-1. clone repo. `$ git clone git@github.com:Awesome94/SMS-Service.git`
+1. clone repo. 
+    - `$ git clone git@github.com:Awesome94/SMS-Service.git`
 
-    - `cd SMS-Service/`
+    - `$ cd SMS-Service/`
 
 2. Create and activate a virtual environment and install requirements:
 
