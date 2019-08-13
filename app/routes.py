@@ -1,24 +1,21 @@
-from app import app, nexmo_client
+from app import app, nexmo_client, africas_talking_client
 from flask.views import View
 from flask import Flask, jsonify, request, make_response
 import nexmo
 
-client = nexmo.Client(key='', secret='')
-client.send_message({
-    'from': 'Nexmo',
-    'to': ' ',
-    'text': ' '
-
-})
-
 
 @app.route('/v1/send_sms', methods=['POST'])
-def send_sms(self):
-    to_number = ''
-    message = ''
+def send_sms():
+    sms_data = request.json
+
+    to_number = sms_data.get('to_number')
+    message = sms_data.get('message')
+    sender = sms_data.get('sender')
+
     nexmo_client.send_message({
-        'from': 'Nexmo',
+        'from': sender,
         'to': to_number,
         'text': message
 
     })
+    africas_talking_client(to_number, message, sender)
