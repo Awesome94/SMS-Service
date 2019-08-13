@@ -17,6 +17,9 @@ class Config(object):
     NEXMO_KEY = os.environ.get("NEXMO_KEY")
     AFRICAS_TALKING_KEY = os.environ.get("AFRICAS_TALKING_KEY")
     AFRICAS_TALKING_USERNAME = os.environ.get("AFRICAS_TALKING_USERNAME")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
 class ProductionConfig(Config):

@@ -1,6 +1,9 @@
 import os
 from app import app
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
+from app.models import User
+from functools import wraps
+import jwt
 import africastalking
 import nexmo
 import queue
@@ -8,6 +11,25 @@ import queue
 env_var = os.environ
 
 sms_queue = queue.Queue(maxsize=0)
+
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+        if not token:
+            return jsonify({'message': 'Token is missing!'}), 403
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = User.query.filter_by(id=data['sub']).first()
+        except:
+            return jsonify({'message': 'Token is invalid'}), 403
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated
 
 
 @app.errorhandler(404)
