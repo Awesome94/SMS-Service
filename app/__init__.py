@@ -26,3 +26,6 @@ elif environ.get('ENV') == 'TESTING':
     app.config.from_object('config.TestingConfig')
 else:
     app.config.from_object('config.StagingConfig')
+
+
+from app import routes

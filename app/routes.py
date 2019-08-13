@@ -3,13 +3,27 @@ from flask.views import View
 from flask import Flask, jsonify, request, make_response
 
 
+@app.route('/', methods=['GET'])
+def load_home_page():
+    print("woe")
+    return jsonify({
+        "message": "welcome to sms service"
+    }), 200
+
+
 @app.route('/v1/send_sms', methods=['POST'])
 def send_sms():
+    client = ''
     sms_data = request.json
+    q_object = {
+        "to_number": sms_data.get('to_number'),
+        "message": sms_data.get('message'),
+        "sender": sms_data.get('sender'),
+        "provider": sms_data.get('provider')
+    }
 
-    to_number = sms_data.get('to_number')
+    reciever = sms_data.get('to_number')
     message = sms_data.get('message')
-    sender = sms_data.get('sender')
     provider = sms_data.get('provider')
 
     if provider == 'nexmo':
@@ -19,4 +33,5 @@ def send_sms():
     elif provider == '':
         client = africas_talking_client
 
-    client.send(to_number, message, sender)
+    response = client.send(reciever, message, q_object)
+    return make_response(jsonify(response))
