@@ -9,8 +9,8 @@ This is a simple SMS service (RestApi) for sending sms' with the following optio
 
 HTTP |End Point  | Result
 --- | --- | ----------
-GET | `/` | Home/initial route.
-POST | `/v1/sendsms` | Registers a new user and assigns them an account.
+`GET` | `/` | `Home/Initial route`.
+`POST` | `/v1/sendsms` | `Registers a new user and assigns them an account.`
 
 ## Installation
 
@@ -23,7 +23,7 @@ POST | `/v1/sendsms` | Registers a new user and assigns them an account.
 ## Run application on Local
 1. clone repo. `$ git clone git@github.com:Awesome94/SMS-Service.git`
 
-    `cd SMS-Service/`
+    - `cd SMS-Service/`
 
 2. Create and activate a virtual environment and install requirements:
 
@@ -34,13 +34,14 @@ POST | `/v1/sendsms` | Registers a new user and assigns them an account.
     NB: Make sure you have FLASK_APP set as `app/__init__.py`.
 
 
-4. Start your application
+3. Start your application
 
 
-    $ python run run.py
+    `$ python run run.py`
+```
      * Running on http://127.0.0.1:5000/
      * Restarting with reloader
-
+```
 You can now open the API with Curl from the command line:
 or Postman.(The choice is yours)
 
@@ -83,7 +84,8 @@ You can also access the landing endpont directly in your browser, by opening <ht
 ```
 
 ### Response.
-````
+
+```
 {
     "SMSMessageData": {
         "Message": "Sent to 1/1 Total Cost: KES 1.0677",
