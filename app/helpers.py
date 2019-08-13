@@ -1,4 +1,6 @@
 import os
+from app import app
+from flask import jsonify, make_response
 import africastalking
 import nexmo
 import queue
@@ -6,6 +8,34 @@ import queue
 env_var = os.environ
 
 sms_queue = queue.Queue(maxsize=0)
+
+
+@app.errorhandler(404)
+def route_not_found(e):
+    return response('failed', 'Endpoint not found', 404)
+
+
+@app.errorhandler(405)
+def method_not_found(e):
+    """
+    Custom response for methods not allowed for the requested URLs
+    """
+    return response('failed', 'The method is not allowed for the requested URL', 405)
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    """
+    Return a custom message for a 500 internal error
+    """
+    return response('failed', 'Internal server error', 500)
+
+
+def response(status, message, status_code):
+    return make_response(jsonify({
+        'status': status,
+        'message': message
+    })), status_code
 
 
 class SMS:
