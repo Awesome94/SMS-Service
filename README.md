@@ -36,10 +36,10 @@ HTTP |End Point  | Result
     - `$ pip install -r requirements.txt.`
 
 3.  create a local database initiate, run migrations and upgrade db:
-    - $ export FLASK_APP=app/__init__.py
-    - `$ createdb smsservice
-    - `$ flask db init
-    - `$ flask db upgrade
+    - `$ export FLASK_APP=app/__init__.py`
+    - `$ createdb smsservice`
+    - `$ flask db init`
+    - `$ flask db upgrade`
 
 4. Start your application
 
@@ -55,7 +55,7 @@ or Postman.(The choice is yours)
 You can also access the landing endpont directly in your browser, by opening <http://127.0.0.1:5000/>
 
 ## Running tests.
-    >   $ pytest
+- `$ pytest`
 
 ## Nexmo provider(Request).
 
