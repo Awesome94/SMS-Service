@@ -1,10 +1,11 @@
 import africastalking
+from .util import env_var
 
 
 class SMS:
     def __init__(self):
-        self.username = "YOUR_USERNAME"
-        self.api_key = "YOUR_API_KEY"
+        self.username = env_var('AFRICAS_TALKING_USERNAME')
+        self.api_key = env_var('AFRICAS_TALKING_KEY')
         africastalking.initialize(self.username, self.api_key)
         self.sms = africastalking.SMS
 
