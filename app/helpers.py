@@ -12,6 +12,7 @@ sms_queue = queue.Queue(maxsize=0)
 
 @app.errorhandler(404)
 def route_not_found(e):
+    print("okay plodaksd")
     return response('failed', 'Endpoint not found', 404)
 
 
@@ -45,9 +46,10 @@ class SMS:
         africastalking.initialize(self.username, self.api_key)
         self.sms = africastalking.SMS
 
-    def send(self, reciever, message, q_object):
+    def send(self, q_object):
         sender = env_var.get('AFRICAS_TALKING_SHORT_CODE')
-        to_number = [reciever]
+        to_number = [q_object.get("to_number")]
+        message = q_object.get("message")
         sms_queue.put(q_object)
         print("added task to queue:", q_object)
         try:
@@ -55,7 +57,7 @@ class SMS:
             sms_queue.get(q_object)
             print(q_object, "successfully removed from queue")
         except Exception as e:
-            print('Encountered an error while sending: %s' % str(e))
+            response = 'Encountered an error while sending: %s' % str(e)
         return response
 
 
@@ -65,17 +67,18 @@ class NexmoSMS:
         self.api_secret = env_var.get('NEXMO_SECRET')
         self.NexmoSMS = nexmo.Client(self.api_key, self.api_secret)
 
-    def send(self, reciever, message, q_object):
-        sms_queue.put(q_object)
+    def send(self, q_object):
         sender = env_var.get('NEXMO_PHONENUMBER')
+        sms_queue.put(q_object)
         print("added task to queue:", q_object)
         try:
+            fifo_sms = sms_queue.get()
             response = self.NexmoSMS.send_message({
                 'from': sender,
-                'to': reciever,
-                'text': message
+                'to': fifo_sms.get("to_number"),
+                'text': fifo_sms.get("message")
             })
             print(q_object, "successfully removed from queue")
         except Exception as e:
-            print('Encountered an error while sending: %s' % str(e))
+            response = 'Encountered an error while sending: %s' % str(e)
         return response
