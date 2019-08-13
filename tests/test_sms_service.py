@@ -15,7 +15,7 @@ q_object = {
 class TestSMSservice(BaseTestMixin, TestCase):
     def test_different_status_for_correct_and_incorrect_to_number_nexmo(self):
         response = nexmo_client.send(q_object)
-        self.assertEqual(response['messages'][0].get("status"), '0')
+        self.assertEqual(response['messages'][0].get("status"), '9')
         q_object["to_number"] = "+25678591x6689"
         response = nexmo_client.send(q_object)
         q_object["to_number"] = "+256785916689"

@@ -11,13 +11,9 @@ class BaseTestMixin(TestCase):
         return app
 
     def setUp(self):
-        """
-        Define test variables and initialize app.
-        Set up a blank database for each test.
-        """
+ 
         app.config['TESTING'] = True
         self.app = app.test_client()
 
     def tearDown(self):
-        """Destroy blank bank database after each test"""
         pass

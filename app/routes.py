@@ -31,7 +31,7 @@ def send_sms():
     elif provider == 'astalking':
         client = africas_talking_client
     else:
-        client = africas_talking_client
+        client = nexmo_client
 
     response = client.send(q_object)
     return make_response(jsonify(response))

@@ -42,20 +42,21 @@ class SMS:
     def __init__(self):
         self.username = env_var.get('AFRICAS_TALKING_USERNAME')
         self.api_key = env_var.get('AFRICAS_TALKING_KEY')
+        self.sms_queue = sms_queue
         africastalking.initialize(self.username, self.api_key)
         self.sms = africastalking.SMS
 
     def send(self, q_object):
         sender = env_var.get('AFRICAS_TALKING_SHORT_CODE')
-        sms_queue.put(q_object)
+        self.sms_queue.put(q_object)
         print("added task to queue:", q_object)
         try:
-            fifo_sms = sms_queue.get()
-            to_number = [fifo_sms.get("to_number")]
-            message = fifo_sms.get("message")
-            response = self.sms.send(message, to_number, sender)
-            sms_queue.get(q_object)
-            print(q_object, "successfully removed from queue")
+            if not sms_queue.empty():
+                fifo_sms = sms_queue.get()
+                to_number = [fifo_sms.get("to_number")]
+                message = fifo_sms.get("message")
+                response = self.sms.send(message, to_number, sender)
+                print(q_object, "successfully removed from queue")
         except Exception as e:
             response = 'Encountered an error while sending: %s' % str(e)
         return response
@@ -65,20 +66,22 @@ class NexmoSMS:
     def __init__(self):
         self.api_key = env_var.get('NEXMO_KEY')
         self.api_secret = env_var.get('NEXMO_SECRET')
+        self.sms_queue = sms_queue
         self.NexmoSMS = nexmo.Client(self.api_key, self.api_secret)
 
     def send(self, q_object):
         sender = env_var.get('NEXMO_PHONENUMBER')
-        sms_queue.put(q_object)
+        self.sms_queue.put(q_object)
         print("added task to queue:", q_object)
         try:
-            fifo_sms = sms_queue.get()
-            response = self.NexmoSMS.send_message({
-                'from': sender,
-                'to': fifo_sms.get("to_number"),
-                'text': fifo_sms.get("message")
-            })
-            print(q_object, "successfully removed from queue")
+            if not sms_queue.empty():
+                fifo_sms = sms_queue.get()
+                response = self.NexmoSMS.send_message({
+                    'from': sender,
+                    'to': fifo_sms.get("to_number"),
+                    'text': fifo_sms.get("message")
+                })
+                print(q_object, "successfully removed from queue")
         except Exception as e:
             response = 'Encountered an error while sending: %s' % str(e)
         return response

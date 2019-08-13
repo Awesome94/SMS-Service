@@ -1,0 +1,8 @@
+[
+  "tests/test_sms_service.py::TestSMSservice::test_404_error_handler",
+  "tests/test_sms_service.py::TestSMSservice::test_default_provider_without_specifying_one",
+  "tests/test_sms_service.py::TestSMSservice::test_different_status_for_correct_and_incorrect_to_number_nexmo",
+  "tests/test_sms_service.py::TestSMSservice::test_root_endpoint_loads",
+  "tests/test_sms_service.py::TestSMSservice::test_when_provider_is_specified_as_astalking",
+  "tests/test_sms_service.py::TestSMSservice::test_when_provider_is_specified_as_nexmo"
+]
