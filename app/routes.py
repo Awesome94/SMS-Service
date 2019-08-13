@@ -1,17 +1,19 @@
-from app import app, nexmo_client, africas_talking_client
-from flask.views import View
-from flask import Flask, jsonify, request, make_response
+from app import app
+from app.helpers import SMS, NexmoSMS
+from flask import jsonify, request, make_response
+
+africas_talking_client = SMS()
+nexmo_client = NexmoSMS()
 
 
 @app.route('/', methods=['GET'])
 def load_home_page():
-    print("woe")
     return jsonify({
-        "message": "welcome to sms service"
+        "message": "welcome to The sms service"
     }), 200
 
 
-@app.route('/v1/send_sms', methods=['POST'])
+@app.route('/v1/sendsms', methods=['POST'])
 def send_sms():
     client = ''
     sms_data = request.json
@@ -22,16 +24,14 @@ def send_sms():
         "provider": sms_data.get('provider')
     }
 
-    reciever = sms_data.get('to_number')
-    message = sms_data.get('message')
     provider = sms_data.get('provider')
 
     if provider == 'nexmo':
         client = nexmo_client
-    elif provider == 'a_stalking':
+    elif provider == 'astalking':
         client = africas_talking_client
-    elif provider == '':
-        client = africas_talking_client
+    else:
+        client = nexmo_client
 
-    response = client.send(reciever, message, q_object)
+    response = client.send(q_object)
     return make_response(jsonify(response))

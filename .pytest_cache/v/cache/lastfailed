@@ -1,0 +1,3 @@
+{
+  "tests/test_sms_service.py::TestSMSservice::test_default_provider": true
+}
